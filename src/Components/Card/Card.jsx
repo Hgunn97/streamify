@@ -1,4 +1,5 @@
-import {Card, CardBody, CardLink, CardText, CardTitle, ListGroup} from "react-bootstrap";
+import {Card, CardBody, CardTitle, ListGroup} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 
 const MovieCard = ({movie}) => {
@@ -7,13 +8,12 @@ const MovieCard = ({movie}) => {
             <Card.Img src={movie.Poster} />
             <CardBody>
                 <CardTitle>{movie.Title}</CardTitle>
-                <CardText>{movie.Plot}</CardText>
             </CardBody>
             <ListGroup className="list-group-flush">
                 <ListGroup.Item>Year: {movie.Year}</ListGroup.Item>
             </ListGroup>
             <Card.Body>
-                <CardLink href={"/" + movie.Title}>View Movie</CardLink>
+                <Link to={"/" + movie.Title}>View</Link>
             </Card.Body>
         </Card>
     )

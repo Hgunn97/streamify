@@ -1,33 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext} from "react";
 import Layout from "../Components/Layout/Layout";
 import Search from "../Components/Search/Search";
-import {Col, Image, Row} from "react-bootstrap";
-import {searchMovies} from "../api/search"
+import {Col, Row} from "react-bootstrap";
 import Card from "../Components/Card/Card";
+import { MovieContext } from "../MovieContextProvider";
 
 const Home = () => {
-    const [movieTitle, setMovieTitle] = useState("");
-    const [movie, setMovie] = useState({
-        Title: "",
-        Year: "",
-        Plot: "",
-        Poster: "",
-        Genre: "",
-        RunTime: "",
-        Director: "",
-        Awards: "",
-        Rating: ""
-    });
+    const {movies, loading, error, handleSearch} = useContext(MovieContext);
     
-    const handleSearch = (movie) => {
-        setMovieTitle(movie);
-        
-        searchMovies(movie).then(m => {
-            setMovie(m)
-        }).catch(error => {
-            console.log(error)
-        })
-        
+    const handleSubmit = async (movie) => {
+        handleSearch(movie);
     }
     
     
@@ -35,11 +17,15 @@ const Home = () => {
         <Layout>
             <Row className="mt-5">
                 <Col></Col>
-                <Col xs={6}><Search submitSearch={handleSearch} /></Col>
+                <Col xs={6}><Search submitSearch={handleSubmit} /></Col>
                 <Col></Col>
             </Row>
+            {loading && <p>Loading...</p>}
+            {error && <p>Error: {error}</p>}
             <Row className="mt-5">
-                {movie.Title !== "" ? <Col><Card movie={movie} /></Col> : <></> }
+                {movies.map((movie, index) => (
+                    <Col><Card key={index} movie={movie} /></Col>
+                    ))}
             </Row>
         </Layout>
     )

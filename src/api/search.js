@@ -3,10 +3,10 @@ const key = process.env.REACT_APP_API_KEY;
 
 const searchMovies = async (search) => {
     try{
-        const results = await api.get(`?t=${search}&apikey=${key}`);
+        const results = await api.get(`?s=${search}&apikey=${key}`);
         
         if(results.data !== null){
-                return results.data
+            return results.data.Search
         }
         
         console.log("No results found")
