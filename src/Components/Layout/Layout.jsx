@@ -1,15 +1,13 @@
-import NavBar from "../Navigation/NavBar";
-import React from "react";
-import {Container} from "react-bootstrap";
+import NavBar from '../Navigation/NavBar';
+import React from 'react';
 
-
-const Layout = ({children}) => {
-    return(
+const Layout = ({ children }) => {
+    return (
         <>
             <NavBar />
-            <Container>
+            <div className="mx-auto px-3">
                 {children}
-            </Container>
+            </div>
         </>
     )
 }
