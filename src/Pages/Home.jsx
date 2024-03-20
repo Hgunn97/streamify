@@ -22,7 +22,7 @@ const Home = () => {
             </Row>
             {loading && (
                 <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '60vh' }}>
-                    <Spinner animation="border" variant="light" />
+                    <Spinner animation="border" variant="light"/>
                 </div>
             )}
             {error && (
@@ -31,19 +31,21 @@ const Home = () => {
                         Error: {error.toString()}
                     </Alert></Container>
             )}
-            {!loading && !error && movies && movies.length > 0 &&
+
+            {!loading && !error &&
                 <Row className="mt-5">
                     <Col sm={3}>
                         <Filter/>
                     </Col>
-                    <Col sm={9}>
-                        <Row>
-                            {movies.map((movie, index) => (
-                                <Col key={index}><Card movie={movie}/></Col>
-                            ))}
-                        </Row>
-
-                    </Col>
+                    {movies && movies.length > 0 &&
+                        <Col sm={9}>
+                            <Row>
+                                {movies.map((movie, index) => (
+                                    <Col className="mb-3" sm={3} key={index}><Card movie={movie}/></Col>
+                                ))}
+                            </Row>
+                        </Col>
+                    }
                 </Row>}
         </Layout>
     )
