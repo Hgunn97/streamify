@@ -26,33 +26,45 @@ const MovieProvider = ({ children }) => {
     }
     
     const applyFilters = (selectedGenre, selectedRating) => {
-        let filteredMovies = [...movies];
+        let updatedMovies = [...movies];
+
+        let ratingUpdate = selectedRating !== null ? selectedRating : rating;
+        let genreUpdate = selectedGenre || selectedGenre === "" ? selectedGenre : genre;
+
+        updatedMovies = filterByRating(updatedMovies, ratingUpdate);
+        updatedMovies = filterByGenre(updatedMovies, genreUpdate);
+
+        setRating(ratingUpdate);
+        setGenre(genreUpdate);
+
+        setFilteredMovies(updatedMovies);
+    }
+    
+    const filterByGenre = (filteredMovies, genre) => {
+        if(!genre) return filteredMovies;
         
-        if(selectedRating) {
-            console.log(selectedRating)
-            switch (selectedRating) {
-                case "5":
-                    filteredMovies = filteredMovies.filter(movie => movie.vote_average < 6);
-                    break;
-                case "6":
-                    filteredMovies = filteredMovies.filter(movie => movie.vote_average >= 6 && movie.vote_average < 7);
-                    break;
-                case "7":
-                    filteredMovies = filteredMovies.filter(movie => movie.vote_average >= 7 && movie.vote_average < 8);
-                    break;
-                case "8":
-                    filteredMovies = filteredMovies.filter(movie => movie.vote_average >= 8 && movie.vote_average < 9);
-                    break;
-                case "9":
-                    filteredMovies = filteredMovies.filter(movie => movie.vote_average >= 9);
-                    break;
-                default:
-                    break;
+        console.log("Current genre" + genre)
+            return filteredMovies.filter(movie => {
+                return movie.genre_ids.includes(parseInt(genre))
+            });
+    }
+    
+    const filterByRating = (filteredMovies , rating) => {
+        console.log("Current rating" + rating);
+        if(!rating) return filteredMovies;
+        
+        let myRating = parseInt(rating)
+        
+        return filteredMovies.filter(movie => {
+            let maxRating = myRating + 1;
+
+            if(myRating === 5){
+                return movie.vote_average < 6;
             }
-        }
-        
-        console.log(filteredMovies);
-        setFilteredMovies(filteredMovies);
+            else{
+                return movie.vote_average >= myRating && movie.vote_average < maxRating;
+            }
+        })
     }
 
     return (

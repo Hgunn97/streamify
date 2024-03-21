@@ -14,7 +14,6 @@ const Home = () => {
     }
 
     const renderFilteredMovies = () => {
-        console.log(filteredMovies)
         if(movies.length > 0 && filteredMovies.length < 1)
             return <Row>
                 <p>No movies found for this filter!</p>

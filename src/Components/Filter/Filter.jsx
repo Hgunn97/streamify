@@ -1,21 +1,24 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap';
 import './Filter.css';
 import { MovieContext } from '../../MovieContextProvider';
 
 const Filter = () => {
     const genres = ['action', 'drama', 'horror'];
+    const genres2 = {28: 'action', 18: 'drama', 27: 'horror', 12: 'adventure'};
     const [genre, setGenre] = useState('');
     const [rating, setRating] = useState('');
     const { applyFilters } = useContext(MovieContext);
     const handleGenreChange = (e) => {
-        setGenre(e.target.value);
-        applyFilters(e.target.value, "")
+        const selectedGenre = e.target.value;
+        setGenre(selectedGenre);
+        applyFilters(selectedGenre, null);
     };
 
     const handleRatingChange = (e) => {
-        setRating(e.target.value);
-        applyFilters("", e.target.value)
+        const selectedRating = e.target.value;
+        setRating(selectedRating);
+        applyFilters(null, selectedRating);
     }
 
     return (
@@ -28,9 +31,9 @@ const Filter = () => {
                             <Form.Label>By Genre:</Form.Label>
                             <Form.Control as="select" onChange={handleGenreChange} value={genre}>
                                 <option value="">All</option>
-                                {genres.map((genre, index) => (
-                                    <option key={index} value={genre}>
-                                        {genre}
+                                {Object.entries(genres2).map(([key, value]) => (
+                                    <option key={key} value={key}>
+                                        {value}
                                     </option>
                                 ))}
                             </Form.Control>
