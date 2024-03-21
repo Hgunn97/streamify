@@ -15,7 +15,6 @@ const MovieProvider = ({ children }) => {
         try {
             setLoading(true);
             const movies = await searchMovies(movie);
-            console.log(movies)
             setMovies(movies);
             setFilteredMovies(movies);
         } catch (e) {
@@ -43,14 +42,12 @@ const MovieProvider = ({ children }) => {
     const filterByGenre = (filteredMovies, genre) => {
         if(!genre) return filteredMovies;
         
-        console.log("Current genre" + genre)
             return filteredMovies.filter(movie => {
                 return movie.genre_ids.includes(parseInt(genre))
             });
     }
     
     const filterByRating = (filteredMovies , rating) => {
-        console.log("Current rating" + rating);
         if(!rating) return filteredMovies;
         
         let myRating = parseInt(rating)

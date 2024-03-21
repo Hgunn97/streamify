@@ -11,7 +11,6 @@ const searchMovies = async(search) => {
             return myResults;
         }
 
-        console.log('No results found')
         return null;
     } catch (error) {
         console.error(`Error when trying to retrieve movie. Error: ${error.message}`, error);
