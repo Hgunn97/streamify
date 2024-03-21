@@ -7,10 +7,25 @@ import { MovieContext } from '../MovieContextProvider';
 import Filter from '../Components/Filter/Filter';
 
 const Home = () => {
-    const { movies, loading, error, handleSearch } = useContext(MovieContext);
+    const { movies, loading, error, handleSearch, filteredMovies } = useContext(MovieContext);
 
     const handleSubmit = async(movie) => {
         handleSearch(movie);
+    }
+
+    const renderFilteredMovies = () => {
+        console.log(filteredMovies)
+        if(movies.length > 0 && filteredMovies.length < 1)
+            return <Row>
+                <p>No movies found for this filter!</p>
+            </Row>
+        return(
+            <Row>
+                {filteredMovies.map((movie, index) => (
+                    <Col className="mb-3" sm={3} key={index}><Card movie={movie}/></Col>
+                ))}
+            </Row>
+        )
     }
 
     return (
@@ -32,21 +47,16 @@ const Home = () => {
                     </Alert></Container>
             )}
 
-            {!loading && !error &&
+            {!loading && !error && movies.length > 0 &&
                 <Row className="mt-5">
                     <Col sm={3}>
-                        <Filter/>
+                        <Filter />
                     </Col>
-                    {movies && movies.length > 0 &&
                         <Col sm={9}>
-                            <Row>
-                                {movies.map((movie, index) => (
-                                    <Col className="mb-3" sm={3} key={index}><Card movie={movie}/></Col>
-                                ))}
-                            </Row>
+                            {renderFilteredMovies()}
                         </Col>
-                    }
-                </Row>}
+                </Row>
+                }
         </Layout>
     )
 }

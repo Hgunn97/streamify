@@ -1,17 +1,21 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap';
 import './Filter.css';
+import { MovieContext } from '../../MovieContextProvider';
 
 const Filter = () => {
     const genres = ['action', 'drama', 'horror'];
     const [genre, setGenre] = useState('');
     const [rating, setRating] = useState('');
+    const { applyFilters } = useContext(MovieContext);
     const handleGenreChange = (e) => {
         setGenre(e.target.value);
+        applyFilters(e.target.value, "")
     };
 
     const handleRatingChange = (e) => {
         setRating(e.target.value);
+        applyFilters("", e.target.value)
     }
 
     return (
