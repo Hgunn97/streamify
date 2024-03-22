@@ -8,7 +8,7 @@ const MoviePage = () => {
     const { movies } = useContext(MovieContext);
     const { movieId } = useParams();
     const movie = movies.find(x => x.id.toString() === movieId)
-    const { original_title, release_date, poster_path, id, overview } = movie;
+    const { original_title, release_date, poster_path, overview } = movie;
     const poster = 'https://image.tmdb.org/t/p/original' + poster_path;
     
     return (

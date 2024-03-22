@@ -24,11 +24,20 @@ const MovieProvider = ({ children }) => {
         }
     }
     
+    const clearFilters = () => {
+        setGenre('');
+        setRating('');
+    }
+    
     const applyFilters = (selectedGenre, selectedRating) => {
         let updatedMovies = [...movies];
+        
+        console.log(updatedMovies);
 
         let ratingUpdate = selectedRating !== null ? selectedRating : rating;
+        console.log(ratingUpdate);
         let genreUpdate = selectedGenre || selectedGenre === "" ? selectedGenre : genre;
+        console.log(genreUpdate);
 
         updatedMovies = filterByRating(updatedMovies, ratingUpdate);
         updatedMovies = filterByGenre(updatedMovies, genreUpdate);
@@ -65,7 +74,7 @@ const MovieProvider = ({ children }) => {
     }
 
     return (
-        <MovieContext.Provider value={{ movies, loading, error, handleSearch, applyFilters, filteredMovies }}>
+        <MovieContext.Provider value={{ movies, loading, error, handleSearch, applyFilters, filteredMovies, clearFilters}}>
             {children}
         </MovieContext.Provider>
     )

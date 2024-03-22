@@ -7,9 +7,10 @@ import { MovieContext } from '../MovieContextProvider';
 import Filter from '../Components/Filter/Filter';
 
 const Home = () => {
-    const { movies, loading, error, handleSearch, filteredMovies } = useContext(MovieContext);
+    const { movies, loading, error, handleSearch, filteredMovies, clearFilters } = useContext(MovieContext);
 
     const handleSubmit = async(movie) => {
+        clearFilters();
         handleSearch(movie);
     }
 
