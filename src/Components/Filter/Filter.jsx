@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap';
 import './Filter.css';
 import { MovieContext } from '../../MovieContextProvider';
-import genres from "./genres.json";
 
 const Filter = () => {
     const [genre, setGenre] = useState('');
     const [rating, setRating] = useState('');
-    const { applyFilters } = useContext(MovieContext);
+    const { applyFilters, genreOptions } = useContext(MovieContext);
+    
     const handleGenreChange = (e) => {
         const selectedGenre = e.target.value;
         setGenre(selectedGenre);
@@ -30,7 +30,7 @@ const Filter = () => {
                             <Form.Label>By Genre:</Form.Label>
                             <Form.Control as="select" onChange={handleGenreChange} value={genre}>
                                 <option value="">All</option>
-                                {genres.map((item) => (
+                                {genreOptions.map((item) => (
                                     <option key={item.id} value={item.id}>
                                         {item.name}
                                     </option>

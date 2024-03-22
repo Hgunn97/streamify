@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Layout from '../Components/Layout/Layout';
 import Search from '../Components/Search/Search';
 import { Alert, Col, Container, Row, Spinner } from 'react-bootstrap';
