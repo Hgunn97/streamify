@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { searchMovies } from './api/search';
+import { retrieveGenres } from './api/genres';
 
 const MovieContext = createContext();
 
@@ -10,6 +11,7 @@ const MovieProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [genre, setGenre] = useState('');
     const [rating, setRating] = useState('');
+    const [genreOptions, setGenreOptions] = useState([])
 
     const handleSearch = async(movie) => {
         try {
@@ -24,6 +26,15 @@ const MovieProvider = ({ children }) => {
         }
     }
     
+    const getGenres = async() => {
+        try {
+            const genres = await retrieveGenres();
+            setGenreOptions(genres);
+        } catch (e) {
+            setError(e.message);
+        }
+    }
+    
     const clearFilters = () => {
         setGenre('');
         setRating('');
@@ -31,13 +42,9 @@ const MovieProvider = ({ children }) => {
     
     const applyFilters = (selectedGenre, selectedRating) => {
         let updatedMovies = [...movies];
-        
-        console.log(updatedMovies);
 
         let ratingUpdate = selectedRating !== null ? selectedRating : rating;
-        console.log(ratingUpdate);
         let genreUpdate = selectedGenre || selectedGenre === "" ? selectedGenre : genre;
-        console.log(genreUpdate);
 
         updatedMovies = filterByRating(updatedMovies, ratingUpdate);
         updatedMovies = filterByGenre(updatedMovies, genreUpdate);
@@ -74,7 +81,7 @@ const MovieProvider = ({ children }) => {
     }
 
     return (
-        <MovieContext.Provider value={{ movies, loading, error, handleSearch, applyFilters, filteredMovies, clearFilters}}>
+        <MovieContext.Provider value={{ movies, loading, error, handleSearch, applyFilters, filteredMovies, clearFilters, getGenres, genreOptions}}>
             {children}
         </MovieContext.Provider>
     )
