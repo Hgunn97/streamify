@@ -1,5 +1,5 @@
-import React, { createContext, useState } from 'react';
-import { searchMovies } from './api/search';
+import React, { createContext, useEffect, useState } from 'react';
+import { retrieveTrendingMovies, searchMovies } from './api/movies';
 import { retrieveGenres } from './api/genres';
 
 const MovieContext = createContext();
@@ -7,11 +7,19 @@ const MovieContext = createContext();
 const MovieProvider = ({ children }) => {
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
+    const [trendingMovies, setTrendingMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [genre, setGenre] = useState('');
     const [rating, setRating] = useState('');
-    const [genreOptions, setGenreOptions] = useState([])
+    const [genreOptions, setGenreOptions] = useState([]);
+
+    useEffect(() => {
+        if(genreOptions.length === 0){
+            getGenres()
+        }
+        getTrendingMovies();
+    }, []);
 
     const handleSearch = async(movie) => {
         try {
@@ -20,7 +28,21 @@ const MovieProvider = ({ children }) => {
             setMovies(movies);
             setFilteredMovies(movies);
         } catch (e) {
-            setError(e.message);
+            setError(`Error trying to retrieve movies. ${e.message}`);
+        } finally {
+            setLoading(false);
+        }
+    }
+    
+    const getTrendingMovies = async () => {
+        try {
+            setLoading(true);
+            const movies = await retrieveTrendingMovies();
+            console.log(movies);
+            setMovies(movies);
+            setFilteredMovies(movies);
+        } catch (e) {
+            setError(`Error trying to retrieve trending movies. ${e.message}`);
         } finally {
             setLoading(false);
         }
@@ -31,7 +53,7 @@ const MovieProvider = ({ children }) => {
             const genres = await retrieveGenres();
             setGenreOptions(genres);
         } catch (e) {
-            setError(e.message);
+            setError(`Error trying to retrieve genres. ${e.message}`);
         }
     }
     
@@ -81,7 +103,7 @@ const MovieProvider = ({ children }) => {
     }
 
     return (
-        <MovieContext.Provider value={{ movies, loading, error, handleSearch, applyFilters, filteredMovies, clearFilters, getGenres, genreOptions}}>
+        <MovieContext.Provider value={{ movies, loading, error, handleSearch, applyFilters, filteredMovies, clearFilters, getGenres, genreOptions, getTrendingMovies}}>
             {children}
         </MovieContext.Provider>
     )

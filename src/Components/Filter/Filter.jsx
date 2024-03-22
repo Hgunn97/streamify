@@ -6,13 +6,7 @@ import { MovieContext } from '../../MovieContextProvider';
 const Filter = () => {
     const [genre, setGenre] = useState('');
     const [rating, setRating] = useState('');
-    const { applyFilters, genreOptions, getGenres } = useContext(MovieContext);
-
-    useEffect(() => {
-        if(genreOptions.length === 0){
-            getGenres()
-        }
-    }, []);
+    const { applyFilters, genreOptions } = useContext(MovieContext);
     
     const handleGenreChange = (e) => {
         const selectedGenre = e.target.value;
