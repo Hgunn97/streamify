@@ -7,7 +7,6 @@ const MovieContext = createContext();
 const MovieProvider = ({ children }) => {
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
-    const [trendingMovies, setTrendingMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [genre, setGenre] = useState('');
@@ -38,7 +37,6 @@ const MovieProvider = ({ children }) => {
         try {
             setLoading(true);
             const movies = await retrieveTrendingMovies();
-            console.log(movies);
             setMovies(movies);
             setFilteredMovies(movies);
         } catch (e) {
